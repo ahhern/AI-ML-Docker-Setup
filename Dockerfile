@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
 	sudo \
 	git \
 	vim \
+	wget \
+	bzip2 \
 	python3-dev \
 	python3-pip \
 	python3-tk \
@@ -20,14 +22,26 @@ RUN apt-get update && apt-get install -y \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-RUN apt-get update && apt-get install -y nodejs
+#RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+# Download and install Miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh \
+    && chmod +x miniconda.sh \
+    && ./miniconda.sh -b -p /opt/conda \
+    && rm miniconda.sh
+
+# Set Conda to your PATH environment variable
+ENV PATH="/opt/conda/bin:$PATH"
+
+# Install Node.js
+RUN conda install -c conda-forge nodejs
 
 # install pip and AI/ML packages
 RUN sudo python3 -m pip install pip --upgrade
 RUN sudo python3 -m pip install numpy pandas scipy statsmodels mlxtend probscale matplotlib seaborn plotly bokeh pydot scikit-learn xgboost lightgbm catboost eli5 tensorflow keras theano nltk spacy gensim scrapy pybrain jupyterlab torch torchvision sympy pytest ipympl
 
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplotlib
+# No need for this , since JupyterLab is >= 3 today.  See https://www.npmjs.com/package/jupyter-matplotlib
+#RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplotlib
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
