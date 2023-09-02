@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # you can change the path of the code dir here
-code_dir=$PWD/code
+code_dir=$HOME/Development/deep-learning-specialization
 
 #echo $code_dir
 
