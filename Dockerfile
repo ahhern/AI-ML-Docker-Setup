@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install -y \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
+# Install utilities like xdg-open , that allows to open a file or URL with the user's preferred application. 
+RUN apt-get update && apt-get install -y xdg-utils
+
 #RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 # Download and install Miniconda
@@ -39,6 +42,7 @@ RUN conda install -c conda-forge nodejs
 # install pip and AI/ML packages
 RUN sudo python3 -m pip install pip --upgrade
 RUN sudo python3 -m pip install numpy pandas scipy statsmodels mlxtend probscale matplotlib seaborn plotly bokeh pydot scikit-learn xgboost lightgbm catboost eli5 tensorflow keras theano nltk spacy gensim scrapy pybrain jupyterlab torch torchvision sympy pytest ipympl
+RUN sudo python3 -m pip install notebook
 
 # No need for this , since JupyterLab is >= 3 today.  See https://www.npmjs.com/package/jupyter-matplotlib
 #RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplotlib
