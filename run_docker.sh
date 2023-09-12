@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # you can change the path of the code dir here
-code_dir=$HOME/Development/deep-learning-specialization
+code_dir=$HOME/Development/deep-learning-specialization/Code
 
 #echo $code_dir
 
